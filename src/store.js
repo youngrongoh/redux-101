@@ -4,7 +4,7 @@ const ADD_TODO = 'ADD_TODO';
 const DELETE_TODO = 'DELETE_TODO';
 
 const addToDo = (text) => ({ type: ADD_TODO, text });
-const deleteToDo = (id) => ({ type: DELETE_TODO, id });
+const deleteToDo = (id) => ({ type: DELETE_TODO, id: +id });
 
 const reducer = (state = [], action) => {
   switch (action.type) {
