@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators } from '../store';
 
-function Home() {
+function Home(props) {
   const [text, setText] = useState('');
   function onChange(e) {
     setText(e.target.value);
   }
   function onSubmit(e) {
     e.preventDefault();
-    console.log(text);
   }
 
   return (
