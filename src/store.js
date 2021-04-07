@@ -1,31 +1,25 @@
-import { configureStore, createAction, createReducer } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 import LocalStore from './localstore';
 
 const localStore = new LocalStore();
 
-const addToDo = createAction('ADD_TODO');
-const deleteToDo = createAction('DELETE_TODO');
-const loadFromLocal = createAction('LOAD_FROM_LOCAL');
-
-const reducer = createReducer([], {
-  [addToDo]: (state, action) => {
-    state.push({ text: action.payload, id: Date.now() });
-    localStore.saveToLocal('toDos', state);
+const toDos = createSlice({
+  name: 'toDosReducer',
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.push({ text: action.payload, id: Date.now() });
+      localStore.saveToLocal('toDos', state);
+    },
+    remove: (state, action) => {
+      const filtered = state.filter(({ id }) => id !== action.payload);
+      localStore.saveToLocal('toDos', filtered);
+      return filtered;
+    },
+    loadFromLocal: () => localStore.loadFromLocal('toDos'),
   },
-  [deleteToDo]: (state, action) => {
-    const filtered = state.filter(({ id }) => id !== action.payload);
-    localStore.saveToLocal('toDos', filtered);
-    return filtered;
-  },
-  [loadFromLocal]: () => localStore.loadFromLocal('toDos'),
 });
 
-const store = configureStore({ reducer });
+export const { add, remove, loadFromLocal } = toDos.actions;
 
-export const actionCreators = {
-  addToDo,
-  deleteToDo,
-  loadFromLocal,
-};
-
-export default store;
+export default configureStore({ reducer: toDos.reducer });

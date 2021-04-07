@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import ToDo from '../components/todo';
-import { actionCreators } from '../store';
+import { add, loadFromLocal } from '../store';
 
 function Home({ toDos, addToDo, loadFromLocal }) {
   const [text, setText] = useState('');
@@ -40,8 +40,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
-    loadFromLocal: () => dispatch(actionCreators.loadFromLocal()),
+    addToDo: (text) => dispatch(add(text)),
+    loadFromLocal: () => dispatch(loadFromLocal()),
   };
 };
 
